@@ -1,19 +1,18 @@
 import express from 'express';
+import morgan from  'morgan';
 import cors from 'cors';
-import morgan from 'morgan';
+import {FRONTEND_URL} from './config/config.js';
 
 const app = express();
 
-app.use(cors());
+// Middlewars 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors({origin: FRONTEND_URL, credentials: true}));
 
-
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Hello world'
-    })
+// Route test
+app.get('api/ping', (req, res) => {
+    res.json({message: '¡API de Ferretería El Martillo funcionando correctamente!g'})
 })
-
 
 export default app;

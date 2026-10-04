@@ -1,12 +1,16 @@
-import app from "./app.js";
-import { connectDB } from "./db.js";
-import { PORT } from "./config.js";
+import app from './app.js';
+import {connectDB} from './config/db.js';
+import {PORT} from './config/config.js';
 
 async function main(){
-    await connectDB();
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+    try{
+        await connectDB();
+        app.listen(PORT, () =>{
+            console.log(`>>> Servidor corriendo en el puerto ${PORT}`);
+        });
+    }catch(error){
+        console.log('Error al iniciar el servidor:', error);
+    }
 }
 
 main();
