@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from  'morgan';
 import cors from 'cors';
 import {FRONTEND_URL} from './config/config.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
@@ -14,5 +15,8 @@ app.use(cors({origin: FRONTEND_URL, credentials: true}));
 app.get('api/ping', (req, res) => {
     res.json({message: '¡API de Ferretería El Martillo funcionando correctamente!g'})
 })
+
+//Rutas del sistema 
+app.use('/api/auth', authRoutes);
 
 export default app;
