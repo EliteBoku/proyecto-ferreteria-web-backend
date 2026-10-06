@@ -5,6 +5,8 @@ import {FRONTEND_URL} from './config/config.js';
 import authRoutes from './routes/auth.routes.js';
 import categoriesRoutes from './routes/categorias.routes.js';
 import productosRoutes from './routes/productos.routes.js';
+import ventasRoutes from './routes/ventas.routes.js';
+
 const app = express();
 
 // Middlewars 
@@ -21,4 +23,5 @@ app.get('api/ping', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/categorias', categoriesRoutes);
 app.use('/api/productos', productosRoutes);
+app.use('/api/ventas', ventasRoutes);
 export default app;

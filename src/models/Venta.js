@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const detalleVentaSchema = new mongoose.Schema({
     producto_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Producto', required: true},
-    nombre: String,
+    nombre_producto: {type: String, required: true},
     cantidad: {type: Number, required: true},
     precio_unitario: {type: Number, required: true},
     subtotal: {type: Number, required: true}
@@ -23,10 +23,10 @@ const ventaSchema = new mongoose.Schema({
         ciudad: {type: String, required: true}
     },
     total: {type: Number, required: true},
-    estado: { type: String, default: 'pendiente' },
-    metodo_pago: { type: String },
+    estado: { type: String, enum:['pendiente', 'pagado', 'enviado', 'entregado', 'cancelado'], default: 'pendiente' },
+    metodo_pago: { type: String, enum: ['efectivo', 'tarjeta', 'transferencia'], default: 'efectivo' },
     id_transaccion_pago: { type: String },
-    estado_pago: { type: String },
+    estado_pago: { type: String , default: 'pendiente'},
     fecha_pago: { type: Date },
     items: [detalleVentaSchema],
     historial_seguimiento: [historialSeguimientoSchema]
