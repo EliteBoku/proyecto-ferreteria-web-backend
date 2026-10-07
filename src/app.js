@@ -6,7 +6,8 @@ import authRoutes from './routes/auth.routes.js';
 import categoriesRoutes from './routes/categorias.routes.js';
 import productosRoutes from './routes/productos.routes.js';
 import ventasRoutes from './routes/ventas.routes.js';
-import inventarioRoutes from './routes/movimientoInventario.routes.js'
+import inventarioRoutes from './routes/movimientoInventario.routes.js';
+import resenasRoutes from './routes/resenas.routes.js';
 
 const app = express();
 
@@ -26,5 +27,6 @@ app.use('/api/categorias', categoriesRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/api/inventario', inventarioRoutes);
+app.use('/api/resenas', resenasRoutes);
 
 export default app;
