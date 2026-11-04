@@ -1,17 +1,35 @@
 import {Categoria} from '../models/Categoria.js';
+import {Producto} from '../models/Producto.js'
 
 // Get all categories
 export const getCategories = async (req, res) =>{
-    try{
-        const categories = await Categoria.find({activa: true});
-        res.json(categories);
-    }catch(error){
-        res.status(500).json({
-            message: 'Error al obtener las categorías', error: error.message
-        })
-    }
-}
+    try {
+    // 1. Obtener categorías activas
+    const categories = await Categoria.find({ activa: true }).lean();
 
+    // 2. Contar productos asociados a cada categoría
+    const categoriesWithCount = await Promise.all(
+      categories.map(async (cat) => {
+        const total = await Producto.countDocuments({
+          categoria_id: cat._id,
+          activo: { $ne: false } // Cuenta solo los productos no eliminados
+        });
+
+        return {
+          ...cat,
+          total_productos: total
+        };
+      })
+    );
+
+    res.json(categoriesWithCount);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error al obtener las categorías',
+      error: error.message
+    });
+  }
+}
 // Create a new category
 export const createCategory = async (req, res) => {
     const {nombre, descripcion} = req.body;
@@ -67,3 +85,32 @@ export const updateCategory = async (req, res) => {
         })
     }
 }
+
+
+export const deleteCategory = async (req, res) => {
+    try {
+        const category = await Categoria.findByIdAndUpdate(
+            req.params.id,
+            { activa: false },
+            { new: true }
+        );
+
+        if (!category) {
+            return res.status(404).json({
+                message: 'Categoría no encontrada'
+            });
+        }
+
+        res.json({
+            message: 'Categoría desactivada correctamente',
+            category
+        });
+
+    } catch (error) {
+        console.log('d')
+        res.status(500).json({
+            message: 'Error al desactivar la categoría',
+            error: error.message
+        });
+    }
+};

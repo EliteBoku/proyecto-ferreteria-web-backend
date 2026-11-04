@@ -20,7 +20,15 @@ const usuarioSchema = new mongoose.Schema({
     rol: {type: String, enum: ['admin', 'user'], default: 'user'},
     telefono: {type: String},
     direcciones: [direccionSchema],
-    carrito: [itemCarritoSchema]
+    carrito: [itemCarritoSchema],
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: null
+    }
 }, {timestamps: true});
 
 
