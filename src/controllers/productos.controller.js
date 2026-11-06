@@ -56,11 +56,17 @@ export const createProduct = async (req, res) => {
                 }
             ]
         });
-        const savedProduct = newProduct.save();
+        const savedProduct = await newProduct.save();
         res.status(201).json(savedProduct); 
     }catch(error){
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                message: 'Datos del producto inválidos',
+                error: error.message
+            });
+        }
         res.status(500).json({
-            message: 'Eror al crear el producto', error:error.message
+            message: 'Error al crear el producto', error: error.message
         });
     }
 }
