@@ -61,8 +61,45 @@ const ventaSchema = new mongoose.Schema(
       },
     },
     historial_seguimiento: [historialSeguimientoSchema],
+
+    // Confirmación de entrega mediante el QR impreso en la factura.
+    entrega: {
+      // Token de un solo uso incluido en la URL del QR. Nunca se envía en las respuestas JSON.
+      token_qr: { type: String, select: false },
+      qr_generado_en: { type: Date },
+      confirmada_en: { type: Date },
+      confirmada_por: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
+      estado_recepcion: {
+        type: String,
+        enum: ['completo', 'con_danos', 'incompleto'],
+      },
+      comentario: { type: String, trim: true, maxlength: 500 },
+      telefono_whatsapp: { type: String },
+    },
+
+    // Resultado del mensaje de WhatsApp enviado al confirmar la entrega.
+    notificacion_whatsapp: {
+      estado: {
+        type: String,
+        enum: ['pendiente', 'enviado', 'simulado', 'fallido', 'omitido'],
+      },
+      proveedor: { type: String },
+      enviado_en: { type: Date },
+      error: { type: String },
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: {
+      transform: (_doc, ret) => {
+        // Evita filtrar el token aunque el documento se haya cargado con él.
+        if (ret.entrega) delete ret.entrega.token_qr;
+        return ret;
+      },
+    },
+  },
 );
+
+ventaSchema.index({ 'entrega.token_qr': 1 }, { unique: true, sparse: true });
 
 export const Venta = mongoose.model('Venta', ventaSchema);
