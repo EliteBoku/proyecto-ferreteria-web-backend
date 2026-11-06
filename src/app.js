@@ -17,9 +17,9 @@ app.use(express.json());
 app.use(cors({origin: FRONTEND_URL, credentials: true}));
 
 // Route test
-app.get('api/ping', (req, res) => {
-    res.json({message: '¡API de Ferretería El Martillo funcionando correctamente!g'})
-})
+app.get('/api/ping', (req, res) => {
+    res.json({ message: '¡API de Ferretería El Martillo funcionando correctamente!' });
+});
 
 //Rutas del sistema 
 app.use('/api/auth', authRoutes);
