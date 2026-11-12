@@ -374,6 +374,7 @@ export const cambiarEstadoVenta = async (req, res) => {
 
     return res.json(ventaActualizada);
   } catch (error) {
+    console.error('Error en cambiarEstadoVenta:', error);
     return res.status(500).json({
       message: 'Error al actualizar el estado.',
       error: error.message,

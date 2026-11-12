@@ -29,4 +29,12 @@ app.use('/api/ventas', ventasRoutes);
 app.use('/api/inventario', inventarioRoutes);
 app.use('/api/resenas', resenasRoutes);
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        status: "success",
+        message: "API de Ferretería funcionando correctamente",
+        database: "MongoDB conectado"
+    });
+});
+
 export default app;

@@ -79,13 +79,15 @@ export const crearOActualizarResena = async (req, res) =>{
 // 2. Get all reviews for a product
 export const getResenasPorProducto = async (req, res) => {
     const { producto_id } = req.params;
-    try{
-        const resenas = await Resena.find({producto_id}).populate('usuario_id', 'nombres apellidos').sort({createdAt: -1});
-        res.json(resenas)
-    }catch(error){
+    try {
+        const resenas = await Resena.find({ producto_id })
+            .populate('usuario_id', 'nombres apellidos')
+            .sort({ fecha: -1 });
+        res.json(resenas);
+    } catch (error) {
         res.status(500).json({ message: 'Error al obtener reseñas', error: error.message });
     }
-}
+};
 
 // 3. Delete review (Own review or by Administrador)
 export const eliminarResena = async (req, res) => {
