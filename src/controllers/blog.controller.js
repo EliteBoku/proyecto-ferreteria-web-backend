@@ -63,7 +63,6 @@ export const getPostBySlug = async (req, res) => {
 export const getAllPostsAdmin = async (req, res) => {
     try {
         const posts = await Blog.find({ activo: true })
-            .select('-contenido')
             .sort({ createdAt: -1 })
             .lean();
         res.json(posts);
