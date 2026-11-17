@@ -8,6 +8,7 @@ import productosRoutes from './routes/productos.routes.js';
 import ventasRoutes from './routes/ventas.routes.js';
 import inventarioRoutes from './routes/movimientoInventario.routes.js';
 import resenasRoutes from './routes/resenas.routes.js';
+import blogRoutes from './routes/blog.routes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/productos', productosRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/api/inventario', inventarioRoutes);
 app.use('/api/resenas', resenasRoutes);
+app.use('/api/blog', blogRoutes);
 
 app.get("/", (req, res) => {
     res.status(200).json({
